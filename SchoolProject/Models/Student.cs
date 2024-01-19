@@ -8,6 +8,8 @@
         public DateTime Birthday{ get; set; }
         public int PhoneNumber { get; set; }
 
+        public virtual Class Class { get; set; }
+
         public Student(int id, string firstName, string lastName, DateTime birthday, int phoneNumber)
         {
             Id = id;

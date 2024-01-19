@@ -6,7 +6,7 @@
         public string Grade { get; set; }
         public char Letter{ get; set; }
         public string Profile { get; set; }
-        public Student[] students { get; set; }
+        public virtual ICollection<Student> Students { get; set; }
 
     }
 }
