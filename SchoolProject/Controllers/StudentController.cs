@@ -22,7 +22,7 @@ namespace SchoolProject.Controllers
         [HttpGet]
         public async Task<IActionResult> Create()
         {
-            db.Students.Add(new Student(1, "Данил", "Михайлов", new DateTime(2005, 1, 14), 890806171));
+            db.Students.Add(new Student("Данил2", "Михайлов", new DateTime(2005, 1, 14), 890806171));
             await db.SaveChangesAsync();
             return RedirectToAction("Index");
         }
