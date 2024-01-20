@@ -8,9 +8,9 @@
         public DateTime Birthday{ get; set; }
         public int PhoneNumber { get; set; }
 
-        public Student(int id, string firstName, string lastName, DateTime birthday, int phoneNumber)
+
+        public Student(string firstName, string lastName, DateTime birthday, int phoneNumber)
         {
-            Id = id;
             FirstName = firstName;
             LastName = lastName;
             Birthday = birthday;
