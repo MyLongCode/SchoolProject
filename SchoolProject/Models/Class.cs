@@ -6,6 +6,8 @@
         public int Grade { get; set; }
         public char Letter{ get; set; }
         public string Profile { get; set; }
+        public int SchoolId { get; set; }
+        public School? School { get; set; }
         public List<Student> Students { get; set; } = new();
 
         public Class(int grade, char letter, string profile)

@@ -8,8 +8,9 @@
         public DateTime Birthday{ get; set; }
         public int PhoneNumber { get; set; }
         public int ClassId { get; set; }
+        public Class? Class { get; set; }
 
-
+        public List<Mark> Marks { get; set; }
 
         public Student(string firstName, string lastName, DateTime birthday, int phoneNumber, int @class)
         {

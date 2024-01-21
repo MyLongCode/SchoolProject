@@ -20,13 +20,13 @@ namespace SchoolProject.Controllers
             return View(await db.Classes.ToListAsync());
         }
         [HttpGet]
-        public async Task<IActionResult> Create()
+        public async Task<IActionResult> Create(Class _class)
         {
-            db.Classes.Add(new Class(11, 'A', "Физмат"));
+            db.Classes.Add(_class);
             await db.SaveChangesAsync();
             return RedirectToAction("Index");
         }
 
-
+        
     }
 }
