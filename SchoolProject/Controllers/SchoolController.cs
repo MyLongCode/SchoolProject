@@ -14,9 +14,9 @@ namespace SchoolProject.Controllers
             db = context;
         }
         [HttpGet]
-        public IActionResult Create()
+        public IActionResult Create(School school)
         {
-            db.Schools.Add(new School("МБОУ СОШ 3", "Троицк"));
+            db.Schools.Add(school);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

@@ -14,13 +14,23 @@ namespace SchoolProject.Controllers
         {
             db = context;
         }
+
         [HttpGet]
         public async Task<IActionResult> Index()
         {
+            foreach(var student in db.Students)
+            {
+                if (student.Class == null)
+                {
+                    Class? _class = await db.Classes.FirstOrDefaultAsync(p => p.Id == student.ClassId);
+                    student.Class = _class;
+                }
+            }
             return View(await db.Students.ToListAsync());
         }
-        [HttpGet]
-        public async Task<IActionResult> CreateX(Student? student)
+
+        [HttpPost]
+        public async Task<IActionResult> Create(Student? student)
         {
             if (student != null)
             {
@@ -30,13 +40,7 @@ namespace SchoolProject.Controllers
             else return NotFound();
             return RedirectToAction("Index");
         }
-        [HttpGet]
-        public async Task<IActionResult> Create()
-        {
-            db.Students.Add(new Student("Данил", "Михайлов", new DateTime(2005, 1, 14), 3424234, 1));
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
+
 
         [HttpPost]
         public async Task<IActionResult> Delete(int? id)
@@ -60,20 +64,12 @@ namespace SchoolProject.Controllers
             return View();
         }
 
-        // POST: StudentController/Edit/5
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public async Task<IActionResult> Edit(Student student)
         {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            db.Students.Update(student);
+            await db.SaveChangesAsync();
+            return RedirectToAction("Index");
         }
-
     }
 }
