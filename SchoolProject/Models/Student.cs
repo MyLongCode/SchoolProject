@@ -7,8 +7,18 @@
         public string LastName { get; set; }
         public DateTime Birthday{ get; set; }
         public int PhoneNumber { get; set; }
+        public int ClassId { get; set; }
 
 
+
+        public Student(string firstName, string lastName, DateTime birthday, int phoneNumber, int @class)
+        {
+            FirstName = firstName;
+            LastName = lastName;
+            Birthday = birthday;
+            PhoneNumber = phoneNumber;
+            ClassId = @class;
+        }
         public Student(string firstName, string lastName, DateTime birthday, int phoneNumber)
         {
             FirstName = firstName;

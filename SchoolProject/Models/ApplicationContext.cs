@@ -6,10 +6,12 @@ namespace SchoolProject.Models
     public class ApplicationContext : DbContext
     {
         public DbSet<Student> Students { get; set; }
+        public DbSet<Class> Classes { get; set; }
         public DbSet<School> Schools { get; set; }
         public ApplicationContext(DbContextOptions<ApplicationContext> options)
             : base(options)
         {
+            Database.EnsureCreated();
         }
         protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
         {

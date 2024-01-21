@@ -20,26 +20,38 @@ namespace SchoolProject.Controllers
             return View(await db.Students.ToListAsync());
         }
         [HttpGet]
+        public async Task<IActionResult> CreateX(Student? student)
+        {
+            if (student != null)
+            {
+                db.Students.Add(student);
+                await db.SaveChangesAsync();
+            }
+            else return NotFound();
+            return RedirectToAction("Index");
+        }
+        [HttpGet]
         public async Task<IActionResult> Create()
         {
-            db.Students.Add(new Student("Данил2", "Михайлов", new DateTime(2005, 1, 14), 890806171));
-            await db.SaveChangesAsync();
+            db.Students.Add(new Student("Данил", "Михайлов", new DateTime(2005, 1, 14), 3424234, 1));
+            db.SaveChanges();
             return RedirectToAction("Index");
         }
 
-        // POST: StudentController/Create
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public async Task<IActionResult> Delete(int? id)
         {
-            try
+            if (id != null)
             {
-                return RedirectToAction(nameof(Index));
+                Student? Student = await db.Students.FirstOrDefaultAsync(p => p.Id == id);
+                if (Student != null)
+                {
+                    db.Students.Remove(Student);
+                    await db.SaveChangesAsync();
+                    return RedirectToAction("Index");
+                }
             }
-            catch
-            {
-                return View();
-            }
+            return NotFound();
         }
 
         [HttpGet]
@@ -63,25 +75,5 @@ namespace SchoolProject.Controllers
             }
         }
 
-        // GET: StudentController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: StudentController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
     }
 }
