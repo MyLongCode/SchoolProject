@@ -1,0 +1,14 @@
+﻿@model IEnumerable<Class>
+
+<h2>Список классов</h2>
+<table class="table">
+     <tr><th>ID</th><th>Название</th><th>Профиль</th></tr>
+    @foreach (var item in Model)
+    {
+            <tr>
+                <td>@item.Id</td>
+                <td>@item.Grade @item.Letter</td>
+                <td>@item.Profile</td>
+            </tr>
+    }
+</table>

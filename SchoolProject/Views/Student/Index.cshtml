@@ -1,13 +1,15 @@
 ﻿@model IEnumerable<Student>
 
-<h2>Список пользователей</h2>
+<h2>Список обучающихся</h2>
 <table class="table">
-     <tr><th>Имя</th><th>Возраст</th></tr>
+     <tr><th>ID</th><th>Имя</th><th>Возраст</th><th>Класс</th></tr>
     @foreach (var item in Model)
     {
             <tr>
+                <td>@item.Id</td>
                 <td>@item.FirstName</td>
                 <td>@item.LastName</td>
+                <td>@item.ClassId</td>
             </tr>
     }
 </table>

@@ -6,13 +6,18 @@
         public int Grade { get; set; }
         public char Letter{ get; set; }
         public string Profile { get; set; }
+        public List<Student> Students { get; set; } = new();
 
-        public Class(int id, int grade, char letter, string profile)
+        public Class(int grade, char letter, string profile)
         {
-            Id = id;
             Grade = grade;
             Letter = letter;
             Profile = profile;
+        }
+
+        public override string ToString()
+        {
+            return $"{Grade}{Letter}";
         }
     }
 }

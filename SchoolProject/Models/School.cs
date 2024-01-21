@@ -1,4 +1,5 @@
-﻿namespace SchoolProject.Models
+﻿
+namespace SchoolProject.Models
 {
     public class School
     {
@@ -6,9 +7,8 @@
         public string Name { get; set; }
         public string City { get; set; }
 
-        public School(int id, string name, string city)
+        public School(string name, string city)
         {
-            Id = id;
             Name = name;
             City = city;
         }
