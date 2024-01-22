@@ -15,6 +15,7 @@ namespace SchoolProject.Controllers
             db = context;
         }
 
+        [Route ("Student/{id?}")]
         [HttpGet]
         public async Task<IActionResult> Index(int? id)
         {
@@ -29,8 +30,10 @@ namespace SchoolProject.Controllers
             }
             if (id is not null)
             {
-                Student? Student = await db.Students.FirstOrDefaultAsync(p => p.Id == id);
-                return View("StudentInfo", Student);
+                Student? student = await db.Students.FirstOrDefaultAsync(p => p.Id == id);
+                List<Mark> studentMarks = await db.Marks.Where(p => p.StudentId == student.Id).ToListAsync();
+                student.Marks = studentMarks;
+                return View("StudentInfo", student);
             }
             return View(await db.Students.ToListAsync());
         }
@@ -78,17 +81,5 @@ namespace SchoolProject.Controllers
             return RedirectToAction("Index");
         }
 
-        public async Task AddClasses()
-        {
-            foreach (var student in db.Students)
-            {
-                if (student.Class == null)
-                {
-                    Class? _class = await db.Classes.FirstOrDefaultAsync(p => p.Id == student.ClassId);
-                    student.Class = _class;
-                    db.SaveChanges();
-                }
-            }
-        }
     }
 }

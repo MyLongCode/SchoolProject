@@ -1,12 +1,13 @@
 ﻿@model Student
 
-<h2>Список обучающихся</h2>
+<h2>@Model.FirstName @Model.LastName @Model.Class.ToString()</h2>
 <table class="table">
-     <tr><th>ID</th><th>Имя</th><th>Возраст</th><th>Класс</th></tr>
-            <tr>
-                <td>@Model.Id</td>
-                <td>@Model.FirstName</td>
-                <td>@Model.LastName</td>
-                <td>@Model.Class.ToString()</td>
-            </tr>
+     <tr><th>Оценка</th><th>Предмет</th></tr>
+    @foreach (var item in Model.Marks)
+    {
+                <tr>
+                    <td>@item.Number</td>
+                    <td>@item.Subject</td>
+                </tr>
+    }
 </table>
