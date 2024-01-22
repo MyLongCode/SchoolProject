@@ -16,15 +16,21 @@ namespace SchoolProject.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? id)
         {
-            foreach(var student in db.Students)
+            foreach (var student in db.Students)
             {
                 if (student.Class == null)
                 {
                     Class? _class = await db.Classes.FirstOrDefaultAsync(p => p.Id == student.ClassId);
                     student.Class = _class;
+                    db.SaveChanges();
                 }
+            }
+            if (id is not null)
+            {
+                Student? Student = await db.Students.FirstOrDefaultAsync(p => p.Id == id);
+                return View("StudentInfo", Student);
             }
             return View(await db.Students.ToListAsync());
         }
@@ -70,6 +76,19 @@ namespace SchoolProject.Controllers
             db.Students.Update(student);
             await db.SaveChangesAsync();
             return RedirectToAction("Index");
+        }
+
+        public async Task AddClasses()
+        {
+            foreach (var student in db.Students)
+            {
+                if (student.Class == null)
+                {
+                    Class? _class = await db.Classes.FirstOrDefaultAsync(p => p.Id == student.ClassId);
+                    student.Class = _class;
+                    db.SaveChanges();
+                }
+            }
         }
     }
 }
