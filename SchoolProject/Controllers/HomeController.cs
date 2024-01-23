@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SchoolProject.Models;
-
 namespace SchoolProject.Controllers
 {
     public class HomeController : Controller
@@ -15,6 +14,7 @@ namespace SchoolProject.Controllers
             ViewData["countStudents"] = db.Students.Count();
             ViewData["countSchools"] = db.Schools.Count();
             ViewData["countClasses"] = db.Classes.Count();
+
             return View();
         }
     }
