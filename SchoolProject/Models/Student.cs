@@ -27,6 +27,29 @@
             Birthday = birthday;
             PhoneNumber = phoneNumber;
         }
+        public double GetAveragePerformance()
+        {
+            if (Marks.Count == 0) return 0;
+            double sum = 0;
+            foreach (var item in Marks)
+                sum += item.Number;
+            return sum / Marks.Count;
+        }
+        public double GetAveragePerformanceForSubject(string subject)
+        {
+            double sum = 0;
+            int count = 0;
+            foreach(var item in Marks)
+            {
+                if (item.Subject == subject) 
+                {
+                    sum += item.Number;
+                    count++; 
+                } 
+            }
+            if (count == 0) return 0;
+            return sum / count;
+        }
 
         public override string ToString()
         {

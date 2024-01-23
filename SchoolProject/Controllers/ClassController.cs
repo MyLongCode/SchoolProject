@@ -14,9 +14,17 @@ namespace SchoolProject.Controllers
         {
             db = context;
         }
+        [Route ("Class/{id?}")]
         [HttpGet]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? id)
         {
+            if (id != null)
+            {
+                Class? _class = await db.Classes.FirstOrDefaultAsync(p => p.Id == id);
+                List<Student> students = await db.Students.Where(p => p.ClassId == id).ToListAsync();
+                _class.Students = students;
+                return View("ClassInfo", _class);
+            }
             return View(await db.Classes.ToListAsync());
         }
         [HttpGet]
