@@ -1,6 +1,7 @@
 ﻿@model Student
 
 <h2>@Model.FirstName @Model.LastName @Model.Class.ToString()</h2>
+<h3>Средняя успеваемость: @Model.GetAveragePerformance()</h3>
 <table class="table">
      <tr><th>Оценка</th><th>Предмет</th></tr>
     @foreach (var item in Model.Marks)

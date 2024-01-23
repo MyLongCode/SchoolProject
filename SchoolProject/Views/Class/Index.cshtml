@@ -7,7 +7,7 @@
     {
             <tr>
                 <td>@item.Id</td>
-                <td>@item.Grade @item.Letter</td>
+                        <td><a  asp-controller="Class" asp-action=@item.Id.ToString()>@item.Grade @item.Letter</a></td>
                 <td>@item.Profile</td>
             </tr>
     }
