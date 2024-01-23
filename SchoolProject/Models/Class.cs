@@ -16,7 +16,21 @@
             Letter = letter;
             Profile = profile;
         }
-
+        public double GetAveragePerformance()
+        {
+            double summ = 0;
+            int count = 0;
+            foreach (Student student in Students)
+            {
+                if (student.GetAveragePerformance() > 0) 
+                {
+                    count++;
+                    summ += student.GetAveragePerformance();
+                }
+            }
+            if (count == 0) return 0;
+            return summ/count;
+        }
         public override string ToString()
         {
             return $"{Grade}{Letter}";

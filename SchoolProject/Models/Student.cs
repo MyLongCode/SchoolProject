@@ -29,7 +29,7 @@
         }
         public double GetAveragePerformance()
         {
-            if (Marks.Count == 0) return 0;
+            if (Marks == null || Marks.Count == 0) return 0;
             double sum = 0;
             foreach (var item in Marks)
                 sum += item.Number;

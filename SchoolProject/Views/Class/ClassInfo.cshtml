@@ -1,13 +1,16 @@
 ﻿@model Class
 
 <h2>@Model.ToString()</h2>
+<h3>Средняя успеваемость класса: @Model.GetAveragePerformance()</h3>
 <table class="table">
-     <tr><th>ID</th><th>Имя Фамилия</th></tr>
+     <tr><th>ID</th><th>Имя Фамилия</th><th>Средний балл</th></tr>
     @foreach (var item in Model.Students)
     {
                 <tr>
                         <td>@item.Id</td>
                             <td><a asp-controller="Student" asp-action=@item.Id.ToString()>@item.FirstName @item.LastName</a></td>
-                </tr>
+                
+                                <td>@item.GetAveragePerformance()</td>
+                        </tr>
     }
 </table>
