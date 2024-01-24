@@ -5,7 +5,7 @@ namespace SchoolProject.Models
 {
     public class ApplicationContext : DbContext
     {
-        public DbSet<Student> Students { get; set; }
+        public DbSet<User> Users { get; set; }
         public DbSet<Class> Classes { get; set; }
         public DbSet<School> Schools { get; set; }
         public DbSet<Mark> Marks { get; set; }

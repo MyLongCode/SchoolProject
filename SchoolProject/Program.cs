@@ -2,11 +2,8 @@ using Microsoft.EntityFrameworkCore;
 using SchoolProject.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authentication.OAuth;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,6 +15,13 @@ string connection = builder.Configuration.GetConnectionString("DefaultConnection
 
 // добавляем контекст ApplicationContext в качестве сервиса в приложение
 builder.Services.AddDbContext<ApplicationContext>(options => options.UseSqlServer(connection));
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.LoginPath = "/login";
+        options.AccessDeniedPath = "/accessdenied";
+    });
+builder.Services.AddAuthorization();
 
 var app = builder.Build();
 // Configure the HTTP request pipeline.
@@ -36,11 +40,69 @@ app.UseRouting();
 app.UseAuthorization();
 app.UseAuthentication();
 
+app.MapGet("/accessdenied", async (HttpContext context) =>
+{
+    context.Response.StatusCode = 403;
+    await context.Response.WriteAsync("Access Denied");
+});
+app.MapGet("/login", async (HttpContext context) =>
+{
+    context.Response.ContentType = "text/html; charset=utf-8";
+    // html-форма для ввода логина/пароля
+    string loginForm = @"<!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset='utf-8' />
+        <title>METANIT.COM</title>
+    </head>
+    <body>
+        <h2>Login Form</h2>
+        <form method='post'>
+            <p>
+                <label>Email</label><br />
+                <input name='login' />
+            </p>
+            <p>
+                <label>Password</label><br />
+                <input type='password' name='password' />
+            </p>
+            <input type='submit' value='Login' />
+        </form>
+    </body>
+    </html>";
+    await context.Response.WriteAsync(loginForm);
+});
+
+app.MapPost("/login", async (string? returnUrl, HttpContext context, ApplicationContext db) =>
+{
+    // получаем из формы login и пароль
+    var form = context.Request.Form;
+    // если login и/или пароль не установлены, посылаем статусный код ошибки 400
+    if (!form.ContainsKey("login") || !form.ContainsKey("password"))
+        return Results.BadRequest("Email и/или пароль не установлены");
+    string login = form["login"];
+    string password = form["password"];
+
+    // находим пользователя 
+    User? user = db.Users.FirstOrDefault(p => p.Login == login && p.Password == password);
+    // если пользователь не найден, отправляем статусный код 401
+    if (user is null) return Results.Unauthorized();
+    var claims = new List<Claim>
+    {
+        new Claim(ClaimsIdentity.DefaultNameClaimType, user.Login),
+        new Claim(ClaimsIdentity.DefaultRoleClaimType, user.Role)
+    };
+    var claimsIdentity = new ClaimsIdentity(claims, "Cookies");
+    var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
+    await context.SignInAsync(claimsPrincipal);
+    return Results.Redirect(returnUrl ?? "/");
+});
+
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 app.MapControllerRoute(
     name: "student_id",
-    pattern: "{controller=Student}/{action=Index}/{id}");
+    pattern: "{controller=User}/{action=Index}/{id}");
 
 app.Run();
