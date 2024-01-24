@@ -20,12 +20,7 @@ namespace SchoolProject.Controllers
         {
             if (id != null)
             {
-                Class? _class = await db.Classes.FirstOrDefaultAsync(p => p.Id == id);
-                List<Student> students = await db.Students.Where(p => p.ClassId == id).ToListAsync();
-                foreach(Student student in students)
-                    student.Marks = await db.Marks.Where(p => p.StudentId == student.Id).ToListAsync();
-                _class.Students = students;
-                return View("ClassInfo", _class);
+                return BadRequest ();
             }
             return View(await db.Classes.ToListAsync());
         }
