@@ -1,11 +1,14 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SchoolProject.Models;
+using System.Data;
 using System.Text;
 
 namespace SchoolProject.Controllers
 {
+    [Authorize(Policy = "RequireAdministratorRole")]
     public class SchoolController : Controller
     {
         ApplicationContext db;
