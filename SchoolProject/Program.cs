@@ -20,8 +20,13 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
     {
         options.LoginPath = "/login";
         options.AccessDeniedPath = "/accessdenied";
+        options.LogoutPath = "/logout";
     });
-builder.Services.AddAuthorization();
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("RequireAdministratorRole",
+         policy => policy.RequireRole("admin"));
+});
 
 var app = builder.Build();
 // Configure the HTTP request pipeline.
@@ -53,7 +58,7 @@ app.MapGet("/login", async (HttpContext context) =>
     <html>
     <head>
         <meta charset='utf-8' />
-        <title>METANIT.COM</title>
+        <title>School Project</title>
     </head>
     <body>
         <h2>Login Form</h2>

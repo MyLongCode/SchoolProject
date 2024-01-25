@@ -11,7 +11,7 @@ namespace SchoolProject.Controllers
         }
         public IActionResult Index()
         {
-            ViewData["countStudents"] = db.Users.Count();
+            ViewData["countStudents"] = db.Users.Where(p => p.Role == "student").Count();
             ViewData["countSchools"] = db.Schools.Count();
             ViewData["countClasses"] = db.Classes.Count();
 
