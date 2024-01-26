@@ -4,11 +4,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SchoolProject.Models;
 using System.Data;
+using System.Security.Claims;
 using System.Text;
 
 namespace SchoolProject.Controllers
 {
-    [Authorize(Policy = "RequireAdministratorRole")]
     public class SchoolController : Controller
     {
         ApplicationContext db;
@@ -24,8 +24,9 @@ namespace SchoolProject.Controllers
             return RedirectToAction("Index");
         }
 
-        public IActionResult Index()
+        public IActionResult Index(HttpContext context)
         {
+            ViewData["username"] = context.User.FindFirst(ClaimsIdentity.DefaultNameClaimType);
             return View(db.Schools.ToList());
         }
 
